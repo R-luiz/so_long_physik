@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:35:38 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 19:29:31 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 19:38:18 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	game_loop(void *param)
 
 	game = (t_game *)param;
 	//limit at 1 refresh per 0.5 seconds
-	if (get_time(game) > 2)
+	if (get_time(game) > 1.8)
 	{
 		gettimeofday(&game->last_frame, NULL);
 		//gravity
@@ -70,7 +70,7 @@ int	game_loop(void *param)
 			game->player->speed.y = -700;
 		if (game->player->pos.y >= 940)
 		{
-			game->player->speed.x *= 0.9999;
+			game->player->speed.x += game->player->speed.x * -0.01;
 		}
 		game->player->pos.x += game->player->speed.x / 100;
 		game->player->pos.y += game->player->speed.y / 100;
