@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:36:52 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 17:25:06 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 18:30:29 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_game
 t_game				*game_init(void);
 int					safeexit(void *data);
 int					key_press(int keycode, t_game *game);
+int					key_press2(int keycode, t_game *game);
 float				get_time(t_game *game);
 
 #endif

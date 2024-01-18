@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:35:38 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 18:11:58 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 18:33:09 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,40 +18,41 @@ int	game_loop(void *param)
 
 	game = (t_game *)param;
 	//limit at 1 refresh per 0.5 seconds
-	if (get_time(game) > 2)
+	if (get_time(game) > 1.5)
 	{
 		gettimeofday(&game->last_frame, NULL);
-
-		game->player->pos.x += game->player->speed.x;
-		game->player->pos.y += game->player->speed.y;
-
+		//gravity		
+		game->player->speed.y += game->gravity->y + game->player->accel.y;
+		game->player->speed.x += game->gravity->x + game->player->accel.x;
 		if (game->player->pos.x < 0)
 		{
 			game->player->pos.x = 0;
-			game->player->speed.x *= -0.9;
+			game->player->speed.x *= -0.8;
 		}
 		if (game->player->pos.y < 0)
 		{
 			game->player->pos.y = 0;
-			game->player->speed.y *= -0.9;
+			game->player->speed.y *= -0.8;
 		}
 		if (game->player->pos.x > 950)
 		{
 			game->player->pos.x = 950;
-			game->player->speed.x *= -0.9;
+			game->player->speed.x *= -0.8;
 		}
 		if (game->player->pos.y > 950)
 		{
 			game->player->pos.y = 950;
-			game->player->speed.y *= -0.9;
+			game->player->speed.y *= -0.8;
 		}
-
+		//movement
+		game->player->pos.x += game->player->speed.x / 100;
+		game->player->pos.y += game->player->speed.y / 100;
 		if (game->player->speed.x != 0 || game->player->speed.y != 0)
 		{
 			mlx_put_image_to_window(game->mlx, game->win, game->background_img, 0, 0);
 			mlx_do_sync(game->mlx);
 			mlx_put_image_to_window(game->mlx, game->win, game->player_img,
-				round(game->player->pos.x), round(game->player->pos.y));
+				game->player->pos.x, game->player->pos.y);
 			mlx_do_sync(game->mlx);
 		}
 	}
@@ -67,6 +68,7 @@ int	main(void)
 		return (1);
 	mlx_hook(game->mlx, 33, 1L << 17, safeexit, (void *)game);
 	mlx_hook(game->win, KeyPress, KeyPressMask, key_press, (void *)game);
+	mlx_hook(game->win, KeyRelease, KeyReleaseMask, key_press2, (void *)game);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 	return (safeexit(game));
