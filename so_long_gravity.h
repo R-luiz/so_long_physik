@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:36:52 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 16:17:33 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 16:43:56 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@
 # define KEY_NUMPAD_7 65429
 # define KEY_NUMPAD_8 65431
 # define KEY_NUMPAD_9 65434
+# define PLAYER 0
+# define ENEMY 1
+# define COLLECTIBLE 2
 
 typedef struct s_vect_2d
 {
@@ -88,18 +91,18 @@ typedef t_entity	t_collectible;
 
 typedef struct s_game
 {
-	t_player		player;
-	t_accel			gravity;
+	t_player		*player;
+	t_accel			*gravity;
 	void			*mlx;
 	void			*win;
 	void			*player_img;
-	void			*player_imgm;
+	void			*playerm_img;
 	void			*background_img;
 	void			*wall_img;
 	void			*exit_img;
 	void			*collectible_img;
 	void			*enemy_img;
-	void			*enemy_imgm;
+	void			*enemym_img;
 	t_arena			*arena;
 }					t_game;
 
