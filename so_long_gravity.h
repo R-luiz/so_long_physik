@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:36:52 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 16:54:49 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 17:25:06 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/time.h>
 # include <time.h>
 # include <unistd.h>
 
@@ -105,9 +106,13 @@ typedef struct s_game
 	void			*enemy_img;
 	void			*enemym_img;
 	t_arena			*arena;
+	struct timeval	last_frame;
+	float			time;
 }					t_game;
 
 t_game				*game_init(void);
 int					safeexit(void *data);
 int					key_press(int keycode, t_game *game);
+float				get_time(t_game *game);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:17:07 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 17:02:37 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 17:30:51 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,17 @@ void    init_entities(t_game *game)
     game->player->mass = 1;
 }
 
+float   get_time(t_game *game)
+{
+    struct timeval  current_time;
+    float           time;
+
+    gettimeofday(&current_time, NULL);
+    time = (current_time.tv_sec - game->last_frame.tv_sec) * 1000.0;
+    time += (current_time.tv_usec - game->last_frame.tv_usec) / 1000.0;
+    return (time);
+}
+
 t_game	*game_init(void)
 {
 	t_arena	*arena;
@@ -63,6 +74,8 @@ t_game	*game_init(void)
     game->gravity = (t_accel *)arena_alloc(game->arena, sizeof(t_accel));
     game->gravity->x = 0;
     game->gravity->y = 1;
+    gettimeofday(&game->last_frame, NULL);
+    game->time = get_time(game);
     init_imgs(game);
     init_entities(game);
 	return (game);
