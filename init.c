@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:17:07 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 16:44:53 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 17:02:37 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void    init_entities(t_game *game)
 {
     game->player = (t_player *)arena_alloc(game->arena, sizeof(t_player));
     game->player->ent_type = PLAYER;
-    game->player->pos.x = 0;
-    game->player->pos.y = 0;
+    game->player->pos.x = 450;
+    game->player->pos.y = 450;
     game->player->speed.x = 0;
     game->player->speed.y = 0;
     game->player->accel.x = 0;
@@ -59,7 +59,7 @@ t_game	*game_init(void)
 		return (NULL);
 	game->arena = arena;
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, 860, 540, "so_long_gravity");
+	game->win = mlx_new_window(game->mlx, 1000, 1000, "so_long_gravity");
     game->gravity = (t_accel *)arena_alloc(game->arena, sizeof(t_accel));
     game->gravity->x = 0;
     game->gravity->y = 1;
