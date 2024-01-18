@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:35:38 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 18:09:13 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 18:11:58 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,22 @@ int	game_loop(void *param)
 		if (game->player->pos.x < 0)
 		{
 			game->player->pos.x = 0;
-			game->player->speed.x *= -1;
+			game->player->speed.x *= -0.9;
 		}
 		if (game->player->pos.y < 0)
 		{
 			game->player->pos.y = 0;
-			game->player->speed.y *= -1;
+			game->player->speed.y *= -0.9;
 		}
 		if (game->player->pos.x > 950)
 		{
 			game->player->pos.x = 950;
-			game->player->speed.x *= -1;
+			game->player->speed.x *= -0.9;
 		}
 		if (game->player->pos.y > 950)
 		{
 			game->player->pos.y = 950;
-			game->player->speed.y *= -1;
+			game->player->speed.y *= -0.9;
 		}
 
 		if (game->player->speed.x != 0 || game->player->speed.y != 0)
@@ -51,7 +51,7 @@ int	game_loop(void *param)
 			mlx_put_image_to_window(game->mlx, game->win, game->background_img, 0, 0);
 			mlx_do_sync(game->mlx);
 			mlx_put_image_to_window(game->mlx, game->win, game->player_img,
-				game->player->pos.x, game->player->pos.y);
+				round(game->player->pos.x), round(game->player->pos.y));
 			mlx_do_sync(game->mlx);
 		}
 	}
