@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:36:52 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 16:43:56 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 16:49:00 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <time.h>
 # include <unistd.h>
 
+# define KEY_ESCAPE 65307
 # define KEY_PRESS 2
 # define KEY_RELEASE 3
 # define KEY_EXIT 17
@@ -107,5 +108,5 @@ typedef struct s_game
 }					t_game;
 
 t_game				*game_init(void);
-
+int					safeexit(t_game *game);
 #endif
