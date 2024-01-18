@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:48:08 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 17:00:58 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 18:02:11 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 void    free_imgs(t_game *game)
 {
     mlx_destroy_image(game->mlx, game->player_img);
-    mlx_destroy_image(game->mlx, game->playerm_img);
-    mlx_destroy_image(game->mlx, game->wall_img);
+    // mlx_destroy_image(game->mlx, game->playerm_img);
+    // mlx_destroy_image(game->mlx, game->wall_img);
     // mlx_destroy_image(game->mlx, game->enemy_img);
     // mlx_destroy_image(game->mlx, game->enemym_img);
-    mlx_destroy_image(game->mlx, game->exit_img);
-    mlx_destroy_image(game->mlx, game->collectible_img);
+    // mlx_destroy_image(game->mlx, game->exit_img);
+    // mlx_destroy_image(game->mlx, game->collectible_img);
     mlx_destroy_image(game->mlx, game->background_img);
 }
 

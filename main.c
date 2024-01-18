@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:35:38 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 17:34:48 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 18:09:13 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,32 @@ int	game_loop(void *param)
 
 	game = (t_game *)param;
 	//limit at 1 refresh per 0.5 seconds
-	printf("time: %f\n", get_time(game));
 	if (get_time(game) > 2)
 	{
 		gettimeofday(&game->last_frame, NULL);
-		if (game->player->speed.x != 0 || game->player->speed.y != 0)
-		{
-			game->player->pos.x += game->player->speed.x;
-			game->player->pos.y += game->player->speed.y;
-		}
+
+		game->player->pos.x += game->player->speed.x;
+		game->player->pos.y += game->player->speed.y;
+
 		if (game->player->pos.x < 0)
 		{
 			game->player->pos.x = 0;
-			game->player->speed.x = -game->player->speed.x;
+			game->player->speed.x *= -1;
 		}
 		if (game->player->pos.y < 0)
 		{
 			game->player->pos.y = 0;
-			game->player->speed.y = -game->player->speed.y;
+			game->player->speed.y *= -1;
 		}
-		if (game->player->pos.x > 900)
+		if (game->player->pos.x > 950)
 		{
-			game->player->pos.x = 900;
-			game->player->speed.x = -game->player->speed.x;
+			game->player->pos.x = 950;
+			game->player->speed.x *= -1;
 		}
-		if (game->player->pos.y > 900)
+		if (game->player->pos.y > 950)
 		{
-			game->player->pos.y = 900;
-			game->player->speed.y = -game->player->speed.y;
+			game->player->pos.y = 950;
+			game->player->speed.y *= -1;
 		}
 
 		if (game->player->speed.x != 0 || game->player->speed.y != 0)

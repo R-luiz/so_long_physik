@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:17:07 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 17:30:51 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 18:02:27 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@ void	init_imgs(t_game *game)
 	int	width;
 	int	height;
 
-	game->player_img = mlx_xpm_file_to_image(game->mlx, "./imgs/player.xpm",
+	game->player_img = mlx_xpm_file_to_image(game->mlx, "./imgs/player2.xpm",
 		&width, &height);
-    game->playerm_img = mlx_xpm_file_to_image(game->mlx, "./imgs/playerm.xpm",
-		&width, &height);
-    game->wall_img = mlx_xpm_file_to_image(game->mlx, "./imgs/wall.xpm",
-        &width, &height);
+    // game->playerm_img = mlx_xpm_file_to_image(game->mlx, "./imgs/playerm.xpm",
+		// &width, &height);
+    // game->wall_img = mlx_xpm_file_to_image(game->mlx, "./imgs/wall.xpm",
+        // &width, &height);
     // game->enemy_img = mlx_xpm_file_to_image(game->mlx, "./imgs/enemy.xpm",
     //     &width, &height);
     // game->enemym_img = mlx_xpm_file_to_image(game->mlx, "./imgs/enemym.xpm",
     //     &width, &height);
-    game->exit_img = mlx_xpm_file_to_image(game->mlx, "./imgs/exit.xpm",
-        &width, &height);
-    game->collectible_img = mlx_xpm_file_to_image(game->mlx, "./imgs/collect.xpm",
-        &width, &height);
-    game->background_img = mlx_xpm_file_to_image(game->mlx, "./imgs/background.xpm",
+    // game->exit_img = mlx_xpm_file_to_image(game->mlx, "./imgs/exit.xpm",
+        // &width, &height);
+    // game->collectible_img = mlx_xpm_file_to_image(game->mlx, "./imgs/collect.xpm",
+        // &width, &height);
+    game->background_img = mlx_xpm_file_to_image(game->mlx, "./imgs/background2.xpm",
         &width, &height);
 }
 
