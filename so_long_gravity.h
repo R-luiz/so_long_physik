@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:36:52 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 16:49:00 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/18 16:52:57 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,5 @@ typedef struct s_game
 
 t_game				*game_init(void);
 int					safeexit(t_game *game);
+int					key_press(int keycode, t_game *game);
 #endif

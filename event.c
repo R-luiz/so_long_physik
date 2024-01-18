@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/18 15:35:38 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 16:53:46 by rluiz            ###   ########.fr       */
+/*   Created: 2024/01/18 16:52:19 by rluiz             #+#    #+#             */
+/*   Updated: 2024/01/18 16:52:37 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long_gravity.h"
 
-int	main(void)
+int	key_press(int keycode, t_game *game)
 {
-	t_game	*game;
-
-	game = game_init();
-	if (!game)
-		return (1);
-	mlx_hook(game->mlx, 33, 1L << 17, safeexit, (void *)game);
-	mlx_hook(game->win, KeyPress, KeyPressMask, key_press, (void *)game);
-	mlx_loop(game->mlx);
-	return (safeexit(game));
+    if (keycode == KEY_ESC)
+        safeexit((void *)game);
+    if (keycode == KEY_W)
+        game->player->speed.y = -1;
+    if (keycode == KEY_A)
+        game->player->speed.x = -1;
+    if (keycode == KEY_S)
+        game->player->speed.y = 1;
+    if (keycode == KEY_D)
+        game->player->speed.x = 1;
+    return (0);
 }
