@@ -2,7 +2,7 @@ NAME	=	so_long_gravity
 
 CC	=	cc
 
-SRC =	main.c arena/arena_alloc.c arena/arena.c init.c free.c event.c
+SRC =	main.c arena/arena_alloc.c arena/arena.c init.c free.c event.c physic.c parse.c check_map.c ft_printf.c
 
 OBJ = ${SRC:.c=.o}
 CFLAGS = -Wall -Wextra -Werror -O3 -g

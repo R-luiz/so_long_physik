@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:36:52 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 18:30:29 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 15:40:24 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@
 # define PLAYER 0
 # define ENEMY 1
 # define COLLECTIBLE 2
+# define BUFFER_SIZE 1024
 
 typedef struct s_vect_2d
 {
@@ -108,6 +109,11 @@ typedef struct s_game
 	t_arena			*arena;
 	struct timeval	last_frame;
 	float			time;
+	char			**map;
+	int				map_width;
+	int				map_height;
+	char			*map_path;
+	int				nb_map;
 }					t_game;
 
 t_game				*game_init(void);
@@ -115,5 +121,12 @@ int					safeexit(void *data);
 int					key_press(int keycode, t_game *game);
 int					key_press2(int keycode, t_game *game);
 float				get_time(t_game *game);
-
+void				physic(t_game *game);
+void				create_file_name(t_game *data, int argc, char **argv);
+void				parse_map(t_game *data);
+void				check_map(t_game *data);
+int					ft_printf(const char *src, ...);
+int					ft_strlen(char *str);
+int					ft_strstrlen(char **str);
+int					ft_atoi(char *str);
 #endif

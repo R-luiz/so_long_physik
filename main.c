@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:35:38 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/18 19:38:18 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 15:42:03 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,58 +22,7 @@ int	game_loop(void *param)
 	{
 		gettimeofday(&game->last_frame, NULL);
 		//gravity
-		game->player->accel.y *= 0.9;
-		game->player->accel.x *= 0.9;
-		game->player->accel.y += game->gravity->y;
-		game->player->accel.x += game->gravity->x;
-		game->player->speed.y += game->player->accel.y;
-		game->player->speed.x += game->player->accel.x;
-		if (game->player->accel.y > 50)
-			game->player->accel.y = 50;
-		if (game->player->accel.x > 50)
-			game->player->accel.x = 50;
-		if (game->player->accel.y < -50)
-			game->player->accel.y = -50;
-		if (game->player->accel.x < -50)
-			game->player->accel.x = -50;
-		if (game->player->pos.x < 0)
-		{
-			game->player->pos.x = 0;
-			game->player->speed.x *= -0.9;
-			game->player->accel.x *= -1;
-		}
-		if (game->player->pos.y < 0)
-		{
-			game->player->pos.y = 0;
-			game->player->speed.y *= -0.9;
-			game->player->accel.y *= -1;
-		}
-		if (game->player->pos.x > 950)
-		{
-			game->player->pos.x = 950;
-			game->player->speed.x *= -0.9;
-			game->player->accel.x *= -1;
-		}
-		if (game->player->pos.y > 950)
-		{
-			game->player->pos.y = 950;
-			game->player->speed.y *= -0.5;
-			game->player->accel.y *= -0.5;
-		}
-		if (game->player->speed.x > 700)
-			game->player->speed.x = 700;
-		if (game->player->speed.y > 700)
-			game->player->speed.y = 700;
-		if (game->player->speed.x < -700)
-			game->player->speed.x = -700;
-		if (game->player->speed.y < -700)
-			game->player->speed.y = -700;
-		if (game->player->pos.y >= 940)
-		{
-			game->player->speed.x += game->player->speed.x * -0.01;
-		}
-		game->player->pos.x += game->player->speed.x / 100;
-		game->player->pos.y += game->player->speed.y / 100;
+		physic(game);
 		if (game->player->speed.x != 0 || game->player->speed.y != 0)
 		{
 			mlx_put_image_to_window(game->mlx, game->win, game->background_img, 0, 0);
@@ -86,13 +35,18 @@ int	game_loop(void *param)
 	return (0);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_game	*game;
 
 	game = game_init();
+	
 	if (!game)
 		return (1);
+	game->nb_map = 2;
+	create_file_name(game, argc, argv);
+	parse_map(game);
+	check_map(game);
 	mlx_hook(game->mlx, 33, 1L << 17, safeexit, (void *)game);
 	mlx_hook(game->win, KeyPress, KeyPressMask, key_press, (void *)game);
 	// mlx_hook(game->win, KeyRelease, KeyReleaseMask, key_press2, (void *)game);
