@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:36:52 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 16:23:27 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 17:30:04 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/time.h>
 # include <time.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 # define KEY_ESCAPE 65307
 # define KEY_PRESS 2
