@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:17:07 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 15:19:26 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 16:39:35 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,38 @@ void	init_imgs(t_game *game)
         &width, &height);
     game->collectible_img = mlx_xpm_file_to_image(game->mlx, "./imgs/collect.xpm",
         &width, &height);
-    game->background_img = mlx_xpm_file_to_image(game->mlx, "./imgs/background2.xpm",
+    game->background_img = mlx_xpm_file_to_image(game->mlx, "./imgs/void.xpm",
         &width, &height);
+}
+
+t_point find_player(t_game *game)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (i < game->map_height)
+    {
+        j = 0;
+        while (j < game->map_width)
+        {
+            if (game->map[i][j] == 'P')
+            {
+                game->map[i][j] = '0';
+                return ((t_point){j * 50, i * 50});
+            }
+            j++;
+        }
+        i++;
+    }
+    return ((t_point){0, 0});
 }
 
 void    init_entities(t_game *game)
 {
     game->player = (t_player *)arena_alloc(game->arena, sizeof(t_player));
     game->player->ent_type = PLAYER;
-    game->player->pos.x = 450;
-    game->player->pos.y = 450;
+    game->player->pos = find_player(game);
     game->player->speed.x = 0;
     game->player->speed.y = 0;
     game->player->accel.x = 0;
@@ -59,7 +81,7 @@ float   get_time(t_game *game)
     return (time);
 }
 
-t_game	*game_init(void)
+t_game	*game_init(int argc, char **argv)
 {
 	t_arena	*arena;
 	t_game	*game;
@@ -70,12 +92,16 @@ t_game	*game_init(void)
 		return (NULL);
 	game->arena = arena;
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, 1000, 1000, "so_long_gravity");
+    game->nb_map = 2;
+	create_file_name(game, argc, argv);
+	parse_map(game);
+	game->win = mlx_new_window(game->mlx, game->map_width * 50, game->map_height * 50, "so_long_gravity");
     game->gravity = (t_accel *)arena_alloc(game->arena, sizeof(t_accel));
     game->gravity->x = 0;
     game->gravity->y = 1;
     gettimeofday(&game->last_frame, NULL);
     game->time = get_time(game);
+	// check_map(game);
     init_imgs(game);
     init_entities(game);
 	return (game);

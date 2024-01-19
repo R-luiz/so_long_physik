@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:19:36 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 15:39:01 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 16:46:54 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	create_file_name(t_game *data, int argc, char **argv)
 
 	if (argc == 1)
 	{
-		data->map_path = "maps/map2.ber";
+		data->map_path = "maps/map5.ber";
 		return ;
 	}
 	if (ft_atoi(argv[1]) == 0 || (ft_atoi(argv[1]) > data->nb_map - 1))
@@ -108,5 +108,7 @@ void	parse_map(t_game *data)
 		i++;
 	}
 	data->map[i] = NULL; // Null-terminate the array
+    data->map_height = line_count;
+    data->map_width = strlen(data->map[0]) - 1;
 	fclose(file);
 }

@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:36:52 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 15:40:24 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 16:23:27 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ typedef struct s_game
 	int				nb_map;
 }					t_game;
 
-t_game				*game_init(void);
+t_game				*game_init(int argc, char **argv);
 int					safeexit(void *data);
 int					key_press(int keycode, t_game *game);
 int					key_press2(int keycode, t_game *game);
@@ -129,4 +129,6 @@ int					ft_printf(const char *src, ...);
 int					ft_strlen(char *str);
 int					ft_strstrlen(char **str);
 int					ft_atoi(char *str);
+void				check_collisions_walls(t_game *game);
+t_point				find_player(t_game *data);
 #endif

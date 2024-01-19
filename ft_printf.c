@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:37:38 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 15:37:46 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 16:20:28 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_strstrlen(char **str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str[i] || str[i][0] != '\n')
 		i++;
 	return (i);
 }

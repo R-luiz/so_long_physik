@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:23:39 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 15:25:49 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 16:19:58 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,33 +79,6 @@ int	check_border_wall(t_game *data)
 		j++;
 	}
 	return (1);
-}
-
-t_point	find_player(t_game *data)
-{
-	int		i;
-	int		j;
-	t_point	pos;
-
-	i = 0;
-	j = 0;
-	pos = (t_point){0, 0};
-	while (data->map[i])
-	{
-		while (data->map[i][j])
-		{
-			if (data->map[i][j] == 'P')
-			{
-				pos.x = j * 50;
-				pos.y = i * 50;
-				return (pos);
-			}
-			j++;
-		}
-		i++;
-		j = 0;
-	}
-	return (pos);
 }
 
 int	is_solvable(t_game *data)
