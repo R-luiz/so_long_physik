@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:17:07 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 16:39:35 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 18:43:10 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_game	*game_init(int argc, char **argv)
 	game->win = mlx_new_window(game->mlx, game->map_width * 50, game->map_height * 50, "so_long_gravity");
     game->gravity = (t_accel *)arena_alloc(game->arena, sizeof(t_accel));
     game->gravity->x = 0;
-    game->gravity->y = 1;
+    game->gravity->y = 0;
     gettimeofday(&game->last_frame, NULL);
     game->time = get_time(game);
 	// check_map(game);

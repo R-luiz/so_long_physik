@@ -134,43 +134,35 @@ void	check_map(t_game *data)
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:52:19 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 18:37:43 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 19:03:46 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long_gravity.h"
 
-int	key_press(int keycode, t_game *game)
-{
+int key_press(int keycode, t_game *game) {
     if (keycode == KEY_ESC)
         safeexit((void *)game);
     if (keycode == KEY_W)
-        game->player->accel.y += -60;
+        game->player->accel.y = -15;
     if (keycode == KEY_A)
-        game->player->accel.x += -25;
+        game->player->accel.x = -15;
     if (keycode == KEY_S)
-        game->player->accel.y += 15;
+        game->player->accel.y = 15;
     if (keycode == KEY_D)
-        game->player->accel.x += 25;
-    if (keycode == KEY_SPACE)
-    {
-        game->player->speed.x = 0;
-        game->player->speed.y = 0;
+        game->player->accel.x = 15;
+    if (keycode == KEY_SPACE) {
+        game->player->accel.x = 0;
+        game->player->accel.y = 0;
     }
     return (0);
 }
 
-int	key_press2(int keycode, t_game *game)
-{
-    if (keycode == KEY_ESC)
-        safeexit((void *)game);
-    if (keycode == KEY_W)
+int key_release(int keycode, t_game *game) {
+    // Reset acceleration on key release
+    if (keycode == KEY_W || keycode == KEY_S)
         game->player->accel.y = 0;
-    if (keycode == KEY_A)
-        game->player->accel.x = 0;
-    if (keycode == KEY_S)
-        game->player->accel.y = 0;
-    if (keycode == KEY_D)
+    if (keycode == KEY_A || keycode == KEY_D)
         game->player->accel.x = 0;
     return (0);
 }
@@ -335,7 +327,7 @@ int	ft_printf(const char *src, ...)
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:17:07 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 16:39:35 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 18:43:10 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -427,7 +419,7 @@ t_game	*game_init(int argc, char **argv)
 	game->win = mlx_new_window(game->mlx, game->map_width * 50, game->map_height * 50, "so_long_gravity");
     game->gravity = (t_accel *)arena_alloc(game->arena, sizeof(t_accel));
     game->gravity->x = 0;
-    game->gravity->y = 1;
+    game->gravity->y = 0;
     gettimeofday(&game->last_frame, NULL);
     game->time = get_time(game);
 	// check_map(game);
@@ -443,35 +435,33 @@ t_game	*game_init(int argc, char **argv)
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:35:38 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 18:38:59 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 19:02:40 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long_gravity.h"
-void	physic(t_game *game)
-{
-	game->player->accel.y *= 0.9;
-	game->player->accel.x *= 0.9;
-	game->player->accel.y += game->gravity->y;
-	game->player->accel.x += game->gravity->x;
-	game->player->speed.y += game->player->accel.y;
-	game->player->speed.x += game->player->accel.x;
-	check_collisions_walls(game);
-	if (game->player->speed.x > 700)
-		game->player->speed.x = 700;
-	if (game->player->speed.y > 700)
-		game->player->speed.y = 700;
-	if (game->player->speed.x < -700)
-		game->player->speed.x = -700;
-	if (game->player->speed.y < -700)
-		game->player->speed.y = -700;
-	if (game->player->pos.y >= 940)
-	{
-		game->player->speed.x += game->player->speed.x * -0.01;
-	}
-	game->player->pos.x += game->player->speed.x / 100;
-	game->player->pos.y += game->player->speed.y / 100;
+
+void physic(t_game *game) {
+    // Update speed based on acceleration
+    game->player->speed.x += game->player->accel.x;
+    game->player->speed.y += game->player->accel.y;
+
+    // Check collisions with walls
+    check_collisions_walls(game);
+
+    // Speed limits
+    game->player->speed.x = fmin(fmax(game->player->speed.x, -300), 300);
+    game->player->speed.y = fmin(fmax(game->player->speed.y, -300), 300);
+
+    // Update player position
+    game->player->pos.x += game->player->speed.x;
+    game->player->pos.y += game->player->speed.y;
+
+    // Boundary checks
+    game->player->pos.x = fmin(fmax(game->player->pos.x, 0), game->map_width * 50 - 30);
+    game->player->pos.y = fmin(fmax(game->player->pos.y, 0), game->map_height * 50 - 30);
 }
+
 
 void	refresh_window(t_game *game)
 {
@@ -534,7 +524,7 @@ int	main(int argc, char **argv)
 
 	mlx_hook(game->mlx, 33, 1L << 17, safeexit, (void *)game);
 	mlx_hook(game->win, KeyPress, KeyPressMask, key_press, (void *)game);
-	// mlx_hook(game->win, KeyRelease, KeyReleaseMask, key_press2, (void *)game);
+	mlx_hook(game->win, KeyRelease, KeyReleaseMask, key_release, (void *)game);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 	return (safeexit(game));
@@ -661,70 +651,52 @@ void	parse_map(t_game *data)
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:18:56 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 18:37:04 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 19:04:28 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long_gravity.h"
-
 bool aabb_collision(int ax, int ay, int aw, int ah, int bx, int by, int bw, int bh) {
     if (ax + aw < bx || ax > bx + bw) return false; // No overlap on x-axis
     if (ay + ah < by || ay > by + bh) return false; // No overlap on y-axis
     return true; // Overlap exists
 }
 
-void resolve_collision(t_game *game, int wall_x, int wall_y, int tile_size) {
-    // Bounce factor (e.g., 0.5 for 50% velocity after bounce)
-    float bounce_factor = 0.5;
+void resolve_collision(t_game *game, int wall_x, int wall_y, int tile_size, int player_width, int player_height) {
+    float bounce_factor = -0.5; // Less strong bounce
 
-    // Check horizontal collision (left or right side of the wall)
-    if (game->player->pos.x < wall_x || game->player->pos.x > wall_x + tile_size) {
-        game->player->speed.x *= -bounce_factor; // Invert and reduce horizontal speed
+    // Horizontal collision
+    if (game->player->pos.x + player_width > wall_x && 
+        game->player->pos.x < wall_x + tile_size) {
+        game->player->speed.x *= bounce_factor;
     }
 
-    // Check vertical collision (top or bottom side of the wall)
-    if (game->player->pos.y < wall_y || game->player->pos.y > wall_y + tile_size) {
-        game->player->speed.y *= -bounce_factor; // Invert and reduce vertical speed
+    // Vertical collision
+    if (game->player->pos.y + player_height > wall_y && 
+        game->player->pos.y < wall_y + tile_size) {
+        game->player->speed.y *= bounce_factor;
     }
 }
 
 void check_collisions_walls(t_game *game) {
-    int player_width = 50;
-    int player_height = 50;
-    float bounce_factor = 0.7;
+    int player_width = 50; // Assuming player's width
+    int player_height = 50; // Assuming player's height
+    int tile_size = 50; // Assuming each tile size
 
     for (int i = 0; i < game->map_height; i++) {
         for (int j = 0; j < game->map_width; j++) {
-            if (game->map[i][j] == '1') {
+            if (game->map[i][j] == '1') { // Wall tile
                 if (aabb_collision(
-                    game->player->pos.x + game->player->speed.x,
-                    game->player->pos.y + game->player->speed.y,
+                    game->player->pos.x, game->player->pos.y,
                     player_width, player_height,
-                    j * 50, i * 50, 50, 50)) {
-                    
-                    // Horizontal collision
-                    if (aabb_collision(
-                        game->player->pos.x + game->player->speed.x * get_time(game),
-                        game->player->pos.y,
-                        player_width, player_height,
-                        j * 50, i * 50, 50, 50)) {
-                        game->player->speed.x *= -bounce_factor;
-                    }
-
-                    // Vertical collision
-                    if (aabb_collision(
-                        game->player->pos.x,
-                        game->player->pos.y + game->player->speed.y * get_time(game),
-                        player_width, player_height,
-                        j * 50, i * 50, 50, 50)) {
-                        game->player->speed.y *= -bounce_factor;
-                    }
+                    j * tile_size, i * tile_size, tile_size, tile_size)) {
+                    // Collision found, resolve it
+                    resolve_collision(game, j * tile_size, i * tile_size, tile_size, player_width, player_height);
                 }
             }
         }
     }
 }
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -733,7 +705,7 @@ void check_collisions_walls(t_game *game) {
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:36:52 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 17:30:04 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 19:01:36 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -749,13 +721,13 @@ void check_collisions_walls(t_game *game) {
 # include <math.h>
 # include <pthread.h>
 # include <stdarg.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
 # include <time.h>
 # include <unistd.h>
-# include <stdbool.h>
 
 # define KEY_ESCAPE 65307
 # define KEY_PRESS 2
@@ -859,4 +831,5 @@ int					ft_strstrlen(char **str);
 int					ft_atoi(char *str);
 void				check_collisions_walls(t_game *game);
 t_point				find_player(t_game *data);
+int					key_release(int keycode, t_game *game);
 #endif

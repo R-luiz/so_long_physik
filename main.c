@@ -6,35 +6,33 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:35:38 by rluiz             #+#    #+#             */
-/*   Updated: 2024/01/19 18:38:59 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/01/19 19:02:40 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long_gravity.h"
-void	physic(t_game *game)
-{
-	game->player->accel.y *= 0.9;
-	game->player->accel.x *= 0.9;
-	game->player->accel.y += game->gravity->y;
-	game->player->accel.x += game->gravity->x;
-	game->player->speed.y += game->player->accel.y;
-	game->player->speed.x += game->player->accel.x;
-	check_collisions_walls(game);
-	if (game->player->speed.x > 700)
-		game->player->speed.x = 700;
-	if (game->player->speed.y > 700)
-		game->player->speed.y = 700;
-	if (game->player->speed.x < -700)
-		game->player->speed.x = -700;
-	if (game->player->speed.y < -700)
-		game->player->speed.y = -700;
-	if (game->player->pos.y >= 940)
-	{
-		game->player->speed.x += game->player->speed.x * -0.01;
-	}
-	game->player->pos.x += game->player->speed.x / 100;
-	game->player->pos.y += game->player->speed.y / 100;
+
+void physic(t_game *game) {
+    // Update speed based on acceleration
+    game->player->speed.x += game->player->accel.x;
+    game->player->speed.y += game->player->accel.y;
+
+    // Check collisions with walls
+    check_collisions_walls(game);
+
+    // Speed limits
+    game->player->speed.x = fmin(fmax(game->player->speed.x, -300), 300);
+    game->player->speed.y = fmin(fmax(game->player->speed.y, -300), 300);
+
+    // Update player position
+    game->player->pos.x += game->player->speed.x;
+    game->player->pos.y += game->player->speed.y;
+
+    // Boundary checks
+    game->player->pos.x = fmin(fmax(game->player->pos.x, 0), game->map_width * 50 - 30);
+    game->player->pos.y = fmin(fmax(game->player->pos.y, 0), game->map_height * 50 - 30);
 }
+
 
 void	refresh_window(t_game *game)
 {
@@ -97,7 +95,7 @@ int	main(int argc, char **argv)
 
 	mlx_hook(game->mlx, 33, 1L << 17, safeexit, (void *)game);
 	mlx_hook(game->win, KeyPress, KeyPressMask, key_press, (void *)game);
-	// mlx_hook(game->win, KeyRelease, KeyReleaseMask, key_press2, (void *)game);
+	mlx_hook(game->win, KeyRelease, KeyReleaseMask, key_release, (void *)game);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 	return (safeexit(game));
